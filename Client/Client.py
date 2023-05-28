@@ -1,6 +1,6 @@
 import requests, json
 from Employee import Employee
-url = "http://127.0.0.1:5000"
+url = "http://srv:5000"
 isOpen = True
 
 def printMenu():

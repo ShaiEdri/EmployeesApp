@@ -1,13 +1,15 @@
 from flask import Flask, render_template, request
 from flaskext.mysql import MySQL
+import os
 app = Flask(__name__)
 mySql = MySQL()
 
 # Set Mysql credentials
-app.config["MYSQL_DATABASE_USER"] = "employees_dev"
-app.config["MYSQL_DATABASE_PASSWORD"] = "pass12345"
-app.config["MYSQL_DATABASE_DB"] = "employees"
-app.config["MYSQL_DATABASE_HOST"] = "localhost"
+app.config['MYSQL_DATABASE_USER'] = os.getenv('DB_USER', 'root')
+app.config['MYSQL_DATABASE_PASSWORD'] = os.getenv('DB_PASSWORD', '')
+app.config['MYSQL_DATABASE_DB'] = os.getenv('DB_NAME', 'employees')
+app.config['MYSQL_DATABASE_HOST'] = os.getenv('DB_HOST', 'db')
+
 mySql.init_app(app)
 @app.route("/", methods=["GET"])
 def index():
@@ -16,6 +18,7 @@ def index():
 @app.route("/test", methods=["GET"])
 def testServer():
     connection = mySql.connect()
+    cursor = connection.cursor()
     return "healthy"
 
 @app.route("/addEmployee", methods=["POST"])
@@ -28,4 +31,4 @@ def addEmployee():
 def deleteEmployee(empId):
     return "Deleted employee id:" + str(empId)
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True)
