@@ -20,7 +20,7 @@ def testServer():
     res = requests.get(url + '/test')
     print(res.text)
 def addEmployee():
-    details = input("Please insert emp details: (id, first name, last name, gender, age, salary, email)\n").split(',')
+    details = input("Please insert emp details: (employee_id, first name, last name, gender, age, salary, email)\n").split(',')
     newEmp = Employee(int(details[0]), details[1], details[2], details[3], float(details[4]), float(details[5]), details[6])
     #newEmpJson = json.dumps(newEmp)
     res = requests.post(url + '/addEmployee', json=newEmp.__dict__)
