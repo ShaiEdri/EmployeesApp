@@ -27,6 +27,14 @@ services:
     ports:
       - "3307:3306"
 
+  test:
+    container_name: test
+    image: test_app
+    build:
+      context: ./tests
+    depends_on:
+      - srv
+      - db
 volumes:
   mysql-data:
     driver: local
